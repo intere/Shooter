@@ -9,6 +9,7 @@
 import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    var background: SKSpriteNode?
     var player: SKSpriteNode?
     var projectile: SKSpriteNode?
     var enemy: SKSpriteNode?
@@ -30,6 +31,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         backgroundColor = UIColor.blackColor()
         
+        spawnBackground()
         spawnPlayer()
         spawnScoreLabel()
         spawnMainLabel()
@@ -40,12 +42,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         updateScore()
         hideLabel()
         resetVariablesOnStart()
-    }
-    
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        //        for touch in touches {
-        //
-        //        }
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -89,6 +85,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: - Helper Methods
     
     func enemyPlayerCollision(enemyTemp: SKSpriteNode, playerTemp: SKSpriteNode) {
+        runAction(SoundProvider.instance.dalekExterminate)
         if let mainLabel = mainLabel, player = player {
             mainLabel.fontSize = 50
             mainLabel.alpha = 1.0
@@ -105,7 +102,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let wait = SKAction.waitForDuration(3)
         let transition = SKAction.runBlock {
             if let view = self.view {
-                view.presentScene(TitleScene(), transition: SKTransition.crossFadeWithDuration(1.0))
+                if let titleScene = TitleScene(fileNamed: "TitleScene") {
+                    view.ignoresSiblingOrder = true
+                    titleScene.scaleMode = .AspectFill
+                    view.presentScene(titleScene, transition: SKTransition.crossFadeWithDuration(1.0))
+                }
             }
         }
         let sequence = SKAction.sequence([wait, transition])
@@ -159,6 +160,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         score = 0
     }
     
+    func spawnBackground() {
+        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            if view?.frame.height > view?.frame.width {
+                background = SKSpriteNode(texture: TextureProvider.instance.background1iPadPortrait)
+                background?.xScale = 1.2
+                background?.yScale = 1.2
+            } else {
+                background = SKSpriteNode(texture: TextureProvider.instance.background1iPadLandscape)
+                background?.xScale = 1.5
+                background?.yScale = 1.5
+            }
+        } else {
+            background = SKSpriteNode(texture: TextureProvider.instance.background1)
+            background?.xScale = 1.2
+            background?.yScale = 1.2
+        }
+        if let background = background {
+            background.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame))
+            background.zPosition = -10
+            addChild(background)
+        }
+    }
+    
     func spawnPlayer() {
         player = SKSpriteNode(texture: TextureProvider.instance.tardisTexture)
         if let player = player {
@@ -180,7 +204,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         enemy = SKSpriteNode(texture: TextureProvider.instance.dalekTexture)
         if let enemy = enemy {
-            enemy.position = CGPoint(x: CGFloat(arc4random_uniform(UInt32(CGRectGetMaxX(frame)) + 300)), y: CGRectGetMaxY(frame) + 300)
+            enemy.position = CGPoint(x: CGFloat(arc4random_uniform(UInt32(CGRectGetMaxX(frame)))), y: CGRectGetMaxY(frame) + 300)
             
             enemy.physicsBody = SKPhysicsBody(rectangleOfSize: enemy.size)
             enemy.physicsBody?.affectedByGravity = false
@@ -238,7 +262,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func spawnProjectile() {
-        projectile = SKSpriteNode(color: UIColor.blueColor(), size: CGSize(width: 3, height: 10))
+        projectile = SKSpriteNode(color: UIColor.greenColor(), size: CGSize(width: 3, height: 15))
         if let projectile = projectile, player = player {
             projectile.position = CGPoint(x: player.position.x, y: player.position.y)
             projectile.physicsBody = SKPhysicsBody(rectangleOfSize: projectile.size)

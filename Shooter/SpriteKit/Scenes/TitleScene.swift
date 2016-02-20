@@ -12,17 +12,25 @@ import SpriteKit
 class TitleScene: SKScene {
     var btnPlay: UIButton?
     var gameTitle: UILabel?
-    
+    var tardisNode: SKSpriteNode?
     let textColorHUD = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
     
     override func didMoveToView(view: SKView) {
         backgroundColor = UIColor.blackColor()
         
+        spawnTardis()
         setupText()
     }
     
-    
     // MARK: - Helper Methods
+    
+    func spawnTardis() {
+        tardisNode = SKSpriteNode(texture: TextureProvider.instance.tardisLargeTexture)
+        if let tardisNode = tardisNode {
+            tardisNode.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame))
+            addChild(tardisNode)
+        }
+    }
     
     func setupText() {
         if let view = view {
@@ -45,15 +53,14 @@ class TitleScene: SKScene {
                 view.addSubview(gameTitle)
             }
         }
-        
     }
     
     func playTheGame() {
         if let view = view {
             view.presentScene(GameScene(), transition: SKTransition.crossFadeWithDuration(1))
+            tardisNode?.removeFromParent()
             btnPlay?.removeFromSuperview()
             gameTitle?.removeFromSuperview()
-            
             
             if let gameScene = GameScene(fileNamed: "GameScene") {
                 view.ignoresSiblingOrder = true
