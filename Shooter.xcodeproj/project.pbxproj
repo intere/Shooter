@@ -43,7 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		36F66B0A1C7763590051273E /* Shooter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shooter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		36F66B0A1C7763590051273E /* Dalek Attack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dalek Attack.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36F66B0D1C7763590051273E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		36F66B131C7763590051273E /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		36F66B161C7763590051273E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -105,7 +105,7 @@
 		36F66B0B1C7763590051273E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				36F66B0A1C7763590051273E /* Shooter.app */,
+				36F66B0A1C7763590051273E /* Dalek Attack.app */,
 				36F66B221C7763590051273E /* ShooterTests.xctest */,
 				36F66B2D1C7763590051273E /* ShooterUITests.xctest */,
 			);
@@ -217,7 +217,7 @@
 			);
 			name = Shooter;
 			productName = Shooter;
-			productReference = 36F66B0A1C7763590051273E /* Shooter.app */;
+			productReference = 36F66B0A1C7763590051273E /* Dalek Attack.app */;
 			productType = "com.apple.product-type.application";
 		};
 		36F66B211C7763590051273E /* ShooterTests */ = {
@@ -483,10 +483,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Shooter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.colasoft.Shooter;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Dalek Attack";
 			};
 			name = Debug;
 		};
@@ -494,10 +495,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Shooter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.colasoft.Shooter;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Dalek Attack";
 			};
 			name = Release;
 		};
@@ -570,6 +572,7 @@
 				36F66B381C7763590051273E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		36F66B391C7763590051273E /* Build configuration list for PBXNativeTarget "ShooterTests" */ = {
 			isa = XCConfigurationList;
@@ -578,6 +581,7 @@
 				36F66B3B1C7763590051273E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		36F66B3C1C7763590051273E /* Build configuration list for PBXNativeTarget "ShooterUITests" */ = {
 			isa = XCConfigurationList;
@@ -586,6 +590,7 @@
 				36F66B3E1C7763590051273E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
