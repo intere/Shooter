@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "36F66B091C7763590051273E"
-               BuildableName = "Shooter.app"
+               BuildableName = "Dalek Attack.app"
                BlueprintName = "Shooter"
                ReferencedContainer = "container:Shooter.xcodeproj">
             </BuildableReference>
@@ -53,7 +53,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "36F66B091C7763590051273E"
-            BuildableName = "Shooter.app"
+            BuildableName = "Dalek Attack.app"
             BlueprintName = "Shooter"
             ReferencedContainer = "container:Shooter.xcodeproj">
          </BuildableReference>
@@ -76,7 +76,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "36F66B091C7763590051273E"
-            BuildableName = "Shooter.app"
+            BuildableName = "Dalek Attack.app"
             BlueprintName = "Shooter"
             ReferencedContainer = "container:Shooter.xcodeproj">
          </BuildableReference>
@@ -95,7 +95,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "36F66B091C7763590051273E"
-            BuildableName = "Shooter.app"
+            BuildableName = "Dalek Attack.app"
             BlueprintName = "Shooter"
             ReferencedContainer = "container:Shooter.xcodeproj">
          </BuildableReference>

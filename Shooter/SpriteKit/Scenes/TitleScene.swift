@@ -64,7 +64,7 @@ class TitleScene: SKScene {
             
             if let gameScene = GameScene(fileNamed: "GameScene") {
                 view.ignoresSiblingOrder = true
-                gameScene.scaleMode = .AspectFill
+                gameScene.scaleMode = .ResizeFill
                 view.presentScene(gameScene)
             }
         }

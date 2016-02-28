@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class GameScene: SKScene, SKPhysicsContactDelegate {
+class GameScene: SKScene {
     var background: SKSpriteNode?
     var player: SKSpriteNode?
     var projectile: SKSpriteNode?
@@ -24,6 +24,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var isAlive = true
     var score = 0
+    var count: CGFloat = 8
     
     let textColorHUD = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
     
@@ -44,6 +45,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         resetVariablesOnStart()
     }
     
+    override func update(currentTime: CFTimeInterval) {
+        if let player = player where !isAlive {
+            player.position.x = -200
+        }
+    }
+}
+
+// MARK: - Touch Events
+extension GameScene {
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         for touch in touches {
             let touchLocation = touch.locationInNode(self)
@@ -54,13 +64,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-    
-    override func update(currentTime: CFTimeInterval) {
-        if let player = player where !isAlive {
-            player.position.x = -200
-        }
-    }
-    
+}
+
+extension GameScene : SKPhysicsContactDelegate {
+
     // MARK: - SKPhysicsContactDelegate Methods
     
     func didBeginContact(contact: SKPhysicsContact) {
@@ -82,8 +89,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    // MARK: - Helper Methods
-    
+}
+
+// MARK: - Helper Methods
+extension GameScene {
     func enemyPlayerCollision(enemyTemp: SKSpriteNode, playerTemp: SKSpriteNode) {
         runAction(SoundProvider.instance.dalekExterminate)
         if let mainLabel = mainLabel, player = player {
@@ -204,7 +213,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         enemy = SKSpriteNode(texture: TextureProvider.instance.dalekTexture)
         if let enemy = enemy {
-            enemy.position = CGPoint(x: CGFloat(arc4random_uniform(UInt32(CGRectGetMaxX(frame)))), y: CGRectGetMaxY(frame) + 300)
+            
+            let maxX = CGRectGetMaxX(frame)
+            let maxY = CGRectGetMaxY(frame)
+            let randomX = random() * (CGRectGetMaxX(frame) - 2 * enemy.frame.size.width) + enemy.frame.size.width
+            enemy.position = CGPoint(x: randomX, y: CGRectGetMaxY(frame) + 300)
             
             enemy.physicsBody = SKPhysicsBody(rectangleOfSize: enemy.size)
             enemy.physicsBody?.affectedByGravity = false
@@ -219,6 +232,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             enemy.runAction(SKAction.sequence([moveForward, destroy]))
             
             addChild(enemy)
+            
+            print("Created Dalek at X: \(enemy.position.x) in size: \(maxX)x\(maxY)")
         }
     }
     
