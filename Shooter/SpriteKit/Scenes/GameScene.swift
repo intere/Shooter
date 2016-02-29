@@ -297,8 +297,8 @@ extension GameScene {
     }
     
     struct PhysicsCategory {
-        static let player: UInt32 = 1
-        static let enemy: UInt32 = 2
-        static let projectile: UInt32 = 3
+        static let player = UInt32(1 << 0)
+        static let enemy = UInt32(1 << 1)
+        static let projectile = UInt32(1 << 2)
     }
 }
