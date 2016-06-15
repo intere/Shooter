@@ -5,7 +5,8 @@ script:
   - bundle exec fastlane test
 
 before_install:
-  - brew update && brew install cloc
+  # - brew update && brew install cloc
+  - brew install cloc
 
 notifications:
   email: false
