@@ -6,6 +6,9 @@
 ## Build generated
 build/
 DerivedData
+iTunesArtwork/
+fastlane/screenshots/
+fastlane/test_output/
 
 ## Various settings
 *.pbxuser
@@ -37,10 +40,9 @@ xcuserdata
 Pods/
 
 # Fastlane Exclusions
-fastlane/README.md
 fastlane/report.xml
 fastlane/screenshots
 fastlane.log
+fastlane/README.md
 *.dSYM.zip
 *.mobileprovision
-Preview.html

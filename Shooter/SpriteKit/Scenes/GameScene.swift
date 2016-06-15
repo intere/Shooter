@@ -53,6 +53,7 @@ class GameScene: SKScene {
 }
 
 // MARK: - Touch Events
+
 extension GameScene {
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         for touch in touches {
@@ -67,6 +68,7 @@ extension GameScene {
 }
 
 // MARK: - SKPhysicsContactDelegate Methods
+
 extension GameScene : SKPhysicsContactDelegate {
     func didBeginContact(contact: SKPhysicsContact) {
         let firstBody = contact.bodyA
@@ -302,10 +304,13 @@ extension GameScene {
 }
 
 // MARK: - Structures
+
 extension GameScene {
+
     struct PhysicsCategory {
         static let player = UInt32(1 << 0)
         static let enemy = UInt32(1 << 1)
         static let projectile = UInt32(1 << 2)
     }
+
 }

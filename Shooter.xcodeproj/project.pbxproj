@@ -45,7 +45,7 @@
 
 /* Begin PBXFileReference section */
 		3660DA0D1C8350CB00FEE04D /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
-		36F66B0A1C7763590051273E /* Dalek Attack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dalek Attack.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		36F66B0A1C7763590051273E /* Shooter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shooter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		36F66B0D1C7763590051273E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		36F66B131C7763590051273E /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		36F66B161C7763590051273E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -115,7 +115,7 @@
 		36F66B0B1C7763590051273E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				36F66B0A1C7763590051273E /* Dalek Attack.app */,
+				36F66B0A1C7763590051273E /* Shooter.app */,
 				36F66B221C7763590051273E /* ShooterTests.xctest */,
 				36F66B2D1C7763590051273E /* ShooterUITests.xctest */,
 			);
@@ -228,7 +228,7 @@
 			);
 			name = Shooter;
 			productName = Shooter;
-			productReference = 36F66B0A1C7763590051273E /* Dalek Attack.app */;
+			productReference = 36F66B0A1C7763590051273E /* Shooter.app */;
 			productType = "com.apple.product-type.application";
 		};
 		36F66B211C7763590051273E /* ShooterTests */ = {
@@ -279,6 +279,7 @@
 				TargetAttributes = {
 					36F66B091C7763590051273E = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = 268S5GJFWZ;
 					};
 					36F66B211C7763590051273E = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -414,6 +415,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_CODE_COVERAGE = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -459,6 +461,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_CODE_COVERAGE = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -496,10 +499,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = Shooter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.colasoft.Shooter;
-				PRODUCT_NAME = "Dalek Attack";
+				PRODUCT_NAME = Shooter;
 			};
 			name = Debug;
 		};
@@ -508,10 +512,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = Shooter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.colasoft.Shooter;
-				PRODUCT_NAME = "Dalek Attack";
+				PRODUCT_NAME = Shooter;
 			};
 			name = Release;
 		};

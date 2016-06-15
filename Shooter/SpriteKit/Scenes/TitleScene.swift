@@ -40,7 +40,7 @@ class TitleScene: SKScene {
                 btnPlay.titleLabel?.font = UIFont(name: "Futura", size: 60)
                 btnPlay.setTitle("Play!", forState: .Normal)
                 btnPlay.setTitleColor(textColorHUD, forState: .Normal)
-                btnPlay.addTarget(self, action: Selector("playTheGame"), forControlEvents: .TouchUpInside)
+                btnPlay.addTarget(self, action: #selector(playTheGame), forControlEvents: .TouchUpInside)
                 view.addSubview(btnPlay)
             }
             
