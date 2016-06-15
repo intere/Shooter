@@ -4,6 +4,8 @@ A Shooter Style game called "Dalek Attack", which is themed from Dr. Who.
 
 This game is written in Swift and uses SpriteKit.
 
+[![Coverage Status](https://coveralls.io/repos/github/intere/Shooter/badge.svg?branch=master)](https://coveralls.io/github/intere/Shooter?branch=master)
+
 ## Screenshots
 
 ![Screenshot 1](https://raw.githubusercontent.com/intere/Shooter/master/screenshots/Screenshot1.png)
