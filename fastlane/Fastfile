@@ -68,6 +68,13 @@ platform :ios do
     #   success: false
     # )
   end
+
+  # Helper Methods
+  
+  def kill_simulator
+    `killall iOS Simulator &> /dev/null`
+  end
+
 end
 
 
