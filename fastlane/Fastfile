@@ -16,6 +16,8 @@ fastlane_version "1.95.0"
 default_platform :ios
 
 platform :ios do
+  scheme = "Shooter"
+
   before_all do
     # ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
 
@@ -24,7 +26,7 @@ platform :ios do
 
   desc "Runs all the tests"
   lane :test do
-    scan
+    scan(scheme: scheme)
     slather(coveralls: true, jenkins: true)
   end
 
