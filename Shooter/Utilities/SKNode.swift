@@ -8,9 +8,9 @@
 
 import SpriteKit
 
-extension SKSpriteNode {
+extension SKNode {
 
-    func update(_ currentTime: TimeInterval) {
+    func update() {
         
     }
 

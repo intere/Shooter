@@ -20,14 +20,8 @@ class GameScene: SKScene {
     /// The Main Label
     var mainLabel: SKLabelNode?
 
-    /// The length of time between firing
-    var fireProjectileRate = 0.2
-
-    /// How fast the projectiles move
-    var projectileSpeed = 0.9
-
-    /// The length of time between Daleks spawning
-    var enemySpawnRate = 0.6
+    /// Manages the configuration for how often to spawn enemies, projectile spawn rate, etc
+    var config = LevelConfig.start()
     
     /// Initial score
     var score = 0
@@ -47,7 +41,9 @@ class GameScene: SKScene {
         startGame()
     }
 
-    func gameOver() {
+
+    /// Handles the game over capabilities
+    override func gameOver() {
         showGameOver()
         guard let player = player else {
             return
@@ -55,11 +51,20 @@ class GameScene: SKScene {
         player.position.x = -200
         self.player = nil
         for child in children {
-            if let node = child as? SKSpriteNode {
-                node.gameOver()
-            }
+            child.gameOver()
         }
     }
+
+    /// updates every so often, good for bookkeeping
+    ///
+    /// - Parameter currentTime: the time that the update occurred
+    override func update(_ currentTime: TimeInterval) {
+        for node in children {
+            // Call to Custom Extension
+            node.update()
+        }
+    }
+
 }
 
 // MARK: - Touch Events
@@ -81,6 +86,9 @@ extension GameScene {
 
 extension GameScene : SKPhysicsContactDelegate {
 
+    /// Handles physics contact
+    ///
+    /// - Parameter contact: the contact event
     func didBegin(_ contact: SKPhysicsContact) {
         guard let nodeA = contact.bodyA.node, let nodeB = contact.bodyB.node else {
             return
@@ -94,24 +102,6 @@ extension GameScene : SKPhysicsContactDelegate {
             contactNode.handleContactWith(node: nodeA)
         }
     }
-
-    func showGameOver() {
-        guard let mainLabel = mainLabel else {
-            return
-        }
-
-        mainLabel.text = "Game Over"
-        mainLabel.removeAllActions()
-        mainLabel.fontSize = 50
-        mainLabel.alpha = 1.0
-
-        waitThenMoveToTitleScreen()
-    }
-
-    func killedEnemyFor(points: Int) {
-        score += points
-        updateScore()
-    }
 }
 
 // MARK: - Node Creation Methods
@@ -119,9 +109,12 @@ extension GameScene : SKPhysicsContactDelegate {
 extension GameScene {
 
     func setupBackground() {
+        guard let view = view else {
+            return
+        }
         var background: SKSpriteNode?
         if UIDevice.current.userInterfaceIdiom == .pad {
-            if view?.frame.height > view?.frame.width {
+            if view.frame.height > view.frame.width {
                 background = SKSpriteNode(texture: SKTexture.background1iPadPortrait)
                 background?.xScale = 1.2
                 background?.yScale = 1.2
@@ -140,6 +133,7 @@ extension GameScene {
         }
         backgroundNode.position = CGPoint(x: frame.midX, y: frame.midY)
         backgroundNode.zPosition = -10
+        backgroundNode.size = frame.size
         addChild(backgroundNode)
     }
 
@@ -155,6 +149,7 @@ extension GameScene {
         guard let player = player, player.alive else {
             return
         }
+        Dalek.enemySpeed = config.enemySpeed
 
         let enemy = Dalek()
         addChild(enemy)
@@ -190,9 +185,8 @@ extension GameScene {
         }
         let projectile = Projectile(player: player)
         addChild(projectile)
-        let moveForward = SKAction.moveTo(y: frame.maxY, duration: projectileSpeed)
-        let destroy = SKAction.removeFromParent()
-        projectile.run(SKAction.sequence([moveForward, destroy]))
+        let moveForward = SKAction.moveTo(y: frame.maxY, duration: config.projectileSpeed)
+        projectile.run(SKAction.sequence([moveForward, SKAction.removeFromParent()]))
     }
 }
 
@@ -202,7 +196,7 @@ extension GameScene {
     
     /// Fires a projectile upwards towards the Daleks
     func fireProjectile() {
-        let fireProjectileTimer = SKAction.wait(forDuration: fireProjectileRate)
+        let fireProjectileTimer = SKAction.wait(forDuration: config.projectileRate)
         let spawn = SKAction.run {
             self.spawnProjectile()
         }
@@ -210,10 +204,9 @@ extension GameScene {
         run(SKAction.repeatForever(sequence))
     }
 
-
     /// Spawns a timer every so often
     func enemyTimerSpawn() {
-        let spawnEnemyTimer = SKAction.wait(forDuration: enemySpawnRate)
+        let spawnEnemyTimer = SKAction.wait(forDuration: config.enemySpawnRate)
         let spawn = SKAction.run {
             self.spawnEnemy()
         }
@@ -226,6 +219,28 @@ extension GameScene {
 // MARK: - Helper Methods
 
 extension GameScene {
+
+    /// Shows the Game Over message
+    func showGameOver() {
+        guard let mainLabel = mainLabel else {
+            return
+        }
+
+        mainLabel.text = "Game Over"
+        mainLabel.removeAllActions()
+        mainLabel.fontSize = 50
+        mainLabel.alpha = 1.0
+
+        waitThenMoveToTitleScreen()
+    }
+
+    /// Tracks enemy kills for points
+    ///
+    /// - Parameter points: How many points was the kill worth?
+    func killedEnemyFor(points: Int) {
+        score += points
+        updateScore()
+    }
 
     /// Starts the game up
     func startGame() {

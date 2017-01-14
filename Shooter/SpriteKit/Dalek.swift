@@ -10,14 +10,15 @@ import SpriteKit
 
 /// This class represents a Dalek (the enemy)
 class Dalek: SKSpriteNode {
-    // How long it takes the Dalek to travel to the position below the screen
-    static var enemySpeed: TimeInterval = 3
+
+    // The Dalek Speed multiplier
+    static var enemySpeed: CGFloat = 1
+
     var alive = true
 
     init() {
         super.init(texture: SKTexture.dalek, color: .clear, size: SKTexture.dalek.size())
         configurePhysics()
-        attack()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -33,7 +34,17 @@ class Dalek: SKSpriteNode {
         let maxX = scene.frame.maxX
         let maxY = scene.frame.maxY
         let randomX = CGFloat.random * (maxX - 2 * frame.size.width) + frame.size.width
-        position = CGPoint(x: randomX, y: maxY + 300)
+        position = CGPoint(x: randomX, y: maxY + 10)
+        attack()
+    }
+
+    override func update() {
+        guard position.y <= -20 else {
+            return
+        }
+        // Handle cleaning up
+        removeAllActions()
+        removeFromParent()
     }
 
 }
@@ -41,7 +52,6 @@ class Dalek: SKSpriteNode {
 // MARK: - PhysicsContactable
 
 extension Dalek: PhysicsContactable {
-
 
     /// Handles contact with other Nodes
     ///
@@ -91,12 +101,10 @@ fileprivate extension Dalek {
         run(SoundProvider.instance.dalekBoom)
     }
 
-
     /// Handles the "attacking" (more like Kamikaze)
     func attack() {
-        let moveForward = SKAction.moveTo(y: -100, duration: Dalek.enemySpeed)
-        let destroy = SKAction.removeFromParent()
-        run(SKAction.sequence([moveForward, destroy]))
+        let move = SKAction.moveBy(x: 0, y: -1 * Dalek.enemySpeed * 100, duration: 1)
+        run(SKAction.repeatForever(move))
     }
 
     /// Configures the physics settings for the Dalek

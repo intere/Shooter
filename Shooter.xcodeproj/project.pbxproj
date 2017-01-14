@@ -15,7 +15,8 @@
 		36A2271A1E2980A2006EE5B7 /* Tardis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A227191E2980A2006EE5B7 /* Tardis.swift */; };
 		36A2271C1E298AAF006EE5B7 /* PhysicsContactable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A2271B1E298AAF006EE5B7 /* PhysicsContactable.swift */; };
 		36A2271E1E299008006EE5B7 /* Projectile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A2271D1E299008006EE5B7 /* Projectile.swift */; };
-		36A227211E299189006EE5B7 /* SKSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A227201E299189006EE5B7 /* SKSpriteNode.swift */; };
+		36A227211E299189006EE5B7 /* SKNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A227201E299189006EE5B7 /* SKNode.swift */; };
+		36A227241E2A7533006EE5B7 /* LevelConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A227231E2A7533006EE5B7 /* LevelConfig.swift */; };
 		36F66B0E1C7763590051273E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F66B0D1C7763590051273E /* AppDelegate.swift */; };
 		36F66B141C7763590051273E /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F66B131C7763590051273E /* GameViewController.swift */; };
 		36F66B171C7763590051273E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 36F66B151C7763590051273E /* Main.storyboard */; };
@@ -58,7 +59,8 @@
 		36A227191E2980A2006EE5B7 /* Tardis.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tardis.swift; sourceTree = "<group>"; };
 		36A2271B1E298AAF006EE5B7 /* PhysicsContactable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysicsContactable.swift; sourceTree = "<group>"; };
 		36A2271D1E299008006EE5B7 /* Projectile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Projectile.swift; sourceTree = "<group>"; };
-		36A227201E299189006EE5B7 /* SKSpriteNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKSpriteNode.swift; sourceTree = "<group>"; };
+		36A227201E299189006EE5B7 /* SKNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKNode.swift; sourceTree = "<group>"; };
+		36A227231E2A7533006EE5B7 /* LevelConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelConfig.swift; sourceTree = "<group>"; };
 		36F66B0A1C7763590051273E /* Shooter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shooter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		36F66B0D1C7763590051273E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		36F66B131C7763590051273E /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
@@ -113,7 +115,7 @@
 				36A227111E297BBF006EE5B7 /* Operators.swift */,
 				36A227151E297E44006EE5B7 /* SKTexture.swift */,
 				36A227171E298005006EE5B7 /* UInt32.swift */,
-				36A227201E299189006EE5B7 /* SKSpriteNode.swift */,
+				36A227201E299189006EE5B7 /* SKNode.swift */,
 			);
 			name = Extensions;
 			path = Utilities;
@@ -126,6 +128,14 @@
 				36F66B151C7763590051273E /* Main.storyboard */,
 			);
 			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		36A227221E2A7524006EE5B7 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				36A227231E2A7533006EE5B7 /* LevelConfig.swift */,
+			);
+			name = Configuration;
 			sourceTree = "<group>";
 		};
 		36F66B011C7763590051273E = {
@@ -208,6 +218,7 @@
 		36F66B461C77884B0051273E /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				36A227221E2A7524006EE5B7 /* Configuration */,
 				36F66B491C7788800051273E /* GameScene.swift */,
 				36F66B471C77886F0051273E /* TitleScene.swift */,
 			);
@@ -295,7 +306,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Eric Internicola";
 				TargetAttributes = {
 					36F66B091C7763590051273E = {
@@ -376,13 +387,14 @@
 				36A227141E297E2A006EE5B7 /* Dalek.swift in Sources */,
 				36A2271E1E299008006EE5B7 /* Projectile.swift in Sources */,
 				36F66B561C78B4650051273E /* SoundProvider.swift in Sources */,
+				36A227241E2A7533006EE5B7 /* LevelConfig.swift in Sources */,
 				36A227161E297E44006EE5B7 /* SKTexture.swift in Sources */,
 				36A227181E298005006EE5B7 /* UInt32.swift in Sources */,
 				36F66B4A1C7788800051273E /* GameScene.swift in Sources */,
 				36F66B141C7763590051273E /* GameViewController.swift in Sources */,
 				36F66B0E1C7763590051273E /* AppDelegate.swift in Sources */,
 				36F66B481C77886F0051273E /* TitleScene.swift in Sources */,
-				36A227211E299189006EE5B7 /* SKSpriteNode.swift in Sources */,
+				36A227211E299189006EE5B7 /* SKNode.swift in Sources */,
 				36A2271C1E298AAF006EE5B7 /* PhysicsContactable.swift in Sources */,
 				36A227121E297BBF006EE5B7 /* Operators.swift in Sources */,
 			);
@@ -453,8 +465,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -499,8 +513,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -519,6 +535,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
