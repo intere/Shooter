@@ -56,18 +56,16 @@ class TitleScene: SKScene {
     }
     
     func playTheGame() {
-        if let view = view {
-            view.presentScene(GameScene(), transition: SKTransition.crossFade(withDuration: 1))
-            tardisNode?.removeFromParent()
-            btnPlay?.removeFromSuperview()
-            gameTitle?.removeFromSuperview()
-            
-            if let gameScene = GameScene(fileNamed: "GameScene") {
-                view.ignoresSiblingOrder = true
-                gameScene.scaleMode = .resizeFill
-                view.presentScene(gameScene)
-            }
+        guard let view = view else {
+            return
         }
-        
+        view.presentScene(GameScene(), transition: SKTransition.crossFade(withDuration: 1))
+        btnPlay?.removeFromSuperview()
+        gameTitle?.removeFromSuperview()
+
+        let gameScene = GameScene(size: view.frame.size)
+        view.ignoresSiblingOrder = true
+        gameScene.scaleMode = .resizeFill
+        view.presentScene(gameScene)
     }
 }

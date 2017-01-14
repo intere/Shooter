@@ -8,8 +8,10 @@
 
 import SpriteKit
 
+/// This class represents a Dalek (the enemy)
 class Dalek: SKSpriteNode {
-    static let enemySpeed: TimeInterval = 3
+    // How long it takes the Dalek to travel to the position below the screen
+    static var enemySpeed: TimeInterval = 3
     var alive = true
 
     init() {
@@ -22,6 +24,7 @@ class Dalek: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
 
+    /// Puts the Dalek in a random x position and above the top of the screen.
     func setRandomPosition() {
         guard let scene = scene else {
             return
@@ -33,7 +36,43 @@ class Dalek: SKSpriteNode {
         position = CGPoint(x: randomX, y: maxY + 300)
     }
 
+}
+
+// MARK: - PhysicsContactable
+
+extension Dalek: PhysicsContactable {
+
+
+    /// Handles contact with other Nodes
+    ///
+    /// - Parameter node: The node we came in contact with
+    func handleContactWith(node: SKNode) {
+        guard alive else {
+            return
+        }
+        if let player = node as? Tardis {
+            player.die()
+        }
+        if node is Projectile {
+            alive = false
+            explode()
+            node.removeAllActions()
+            node.removeFromParent()
+            if let scene = scene as? GameScene {
+                scene.killedEnemyFor(points: 1)
+            }
+        }
+    }
+
+}
+
+// MARK: - Helpers
+
+fileprivate extension Dalek {
+
+    /// Handles the blowing up of the Dalek (when it's been shot)
     func explode() {
+        physicsBody?.isDynamic = false
         guard let scene = scene,
             let explosionEmitterPath = Bundle.main.path(forResource: "explosion", ofType: "sks"),
             let explosion = NSKeyedUnarchiver.unarchiveObject(withFile: explosionEmitterPath) as? SKEmitterNode else
@@ -49,41 +88,18 @@ class Dalek: SKSpriteNode {
         scene.addChild(explosion)
         explosion.run(SKAction.sequence([SKAction.wait(forDuration: 0.5), SKAction.removeFromParent()]))
         run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.5), SKAction.removeFromParent()]))
-    }
-}
-
-// MARK: - PhysicsContactable
-
-extension Dalek: PhysicsContactable {
-
-    func handleContactWith(node: SKNode) {
-        guard alive else {
-            return
-        }
-        if let player = node as? Tardis {
-            player.die()
-        }
-        if node is Projectile {
-            alive = false
-            explode()
-            if let scene = scene as? GameScene {
-                scene.killedEnemyFor(points: 1)
-            }
-        }
+        run(SoundProvider.instance.dalekBoom)
     }
 
-}
 
-// MARK: - Helpers
-
-fileprivate extension Dalek {
-
+    /// Handles the "attacking" (more like Kamikaze)
     func attack() {
         let moveForward = SKAction.moveTo(y: -100, duration: Dalek.enemySpeed)
         let destroy = SKAction.removeFromParent()
         run(SKAction.sequence([moveForward, destroy]))
     }
 
+    /// Configures the physics settings for the Dalek
     func configurePhysics() {
         physicsBody = SKPhysicsBody(rectangleOf: size)
         physicsBody?.affectedByGravity = false

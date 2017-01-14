@@ -13,4 +13,5 @@ class SoundProvider {
     
     /// Dalek screams "Exterminate"
     let dalekExterminate = SKAction.playSoundFileNamed("exterminate.mp3", waitForCompletion: false)
+    let dalekBoom = SKAction.playSoundFileNamed("Blast.mp3", waitForCompletion: false)
 }

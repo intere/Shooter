@@ -9,7 +9,7 @@
 import SpriteKit
 
 
-/// Delineates that the implementer of this protocol will handle a physics contact with another node type
+/// The implementer of this protocol will handle a physics contact with another node type
 protocol PhysicsContactable {
 
     /// Handles contact with another node type.

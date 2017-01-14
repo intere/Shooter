@@ -8,44 +8,43 @@
 
 import SpriteKit
 
-
-
+/// This is the Game Scene, it's where we play the game itself
 class GameScene: SKScene {
-    var background: SKSpriteNode?
-    var player: SKSpriteNode?
+
+    /// The player's character, the Tardis
+    var player: Tardis?
+
+    /// The Score Label
     var scoreLabel: SKLabelNode?
+
+    /// The Main Label
     var mainLabel: SKLabelNode?
-    
+
+    /// The length of time between firing
     var fireProjectileRate = 0.2
+
+    /// How fast the projectiles move
     var projectileSpeed = 0.9
-    
+
+    /// The length of time between Daleks spawning
     var enemySpawnRate = 0.6
     
-    var isAlive = true
+    /// Initial score
     var score = 0
-    var count: CGFloat = 8
-    
+
     let textColorHUD = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
-    
+
+    /// Lifecycle: when this scene is presented in the SKView.
+    ///
+    /// - Parameter view: The SKView that is presenting us
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
         backgroundColor = UIColor.black
         
-        spawnBackground()
-        spawnPlayer()
-        spawnScoreLabel()
-        spawnMainLabel()
-        spawnEnemy()
-        spawnProjectile()
-        fireProjectile()
-        randomEnemyTimerSpawn()
-        updateScore()
-        hideLabel()
-        resetVariablesOnStart()
-    }
-    
-    override func update(_ currentTime: TimeInterval) {
+        setupBackground()
+        createNodes()
 
+        startGame()
     }
 
     func gameOver() {
@@ -69,11 +68,11 @@ extension GameScene {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let touchLocation = touch.location(in: self)
-            if let player = player, isAlive {
-                player.position.x = touchLocation.x
-            } else {
-                player?.position.x = -200
+            guard let player = player, player.alive else {
+                self.player?.position.x = -200
+                continue
             }
+            player.position.x = touchLocation.x
         }
     }
 }
@@ -97,14 +96,14 @@ extension GameScene : SKPhysicsContactDelegate {
     }
 
     func showGameOver() {
-        isAlive = false
         guard let mainLabel = mainLabel else {
             return
         }
 
+        mainLabel.text = "Game Over"
+        mainLabel.removeAllActions()
         mainLabel.fontSize = 50
         mainLabel.alpha = 1.0
-        mainLabel.text = "Game Over"
 
         waitThenMoveToTitleScreen()
     }
@@ -115,10 +114,12 @@ extension GameScene : SKPhysicsContactDelegate {
     }
 }
 
-// MARK: - Spawning Methods
+// MARK: - Node Creation Methods
+
 extension GameScene {
 
-    func spawnBackground() {
+    func setupBackground() {
+        var background: SKSpriteNode?
         if UIDevice.current.userInterfaceIdiom == .pad {
             if view?.frame.height > view?.frame.width {
                 background = SKSpriteNode(texture: SKTexture.background1iPadPortrait)
@@ -134,11 +135,12 @@ extension GameScene {
             background?.xScale = 1.2
             background?.yScale = 1.2
         }
-        if let background = background {
-            background.position = CGPoint(x: frame.midX, y: frame.midY)
-            background.zPosition = -10
-            addChild(background)
+        guard let backgroundNode = background else {
+            return
         }
+        backgroundNode.position = CGPoint(x: frame.midX, y: frame.midY)
+        backgroundNode.zPosition = -10
+        addChild(backgroundNode)
     }
 
     func spawnPlayer() {
@@ -150,18 +152,16 @@ extension GameScene {
     }
 
     func spawnEnemy() {
-        guard isAlive else {
+        guard let player = player, player.alive else {
             return
         }
 
         let enemy = Dalek()
         addChild(enemy)
         enemy.setRandomPosition()
-
-        print("Created Dalek at \(enemy.position)")
     }
 
-    func spawnScoreLabel() {
+    func createScoreLabel() {
         scoreLabel = SKLabelNode(fontNamed: "Futura")
         if let scoreLabel = scoreLabel {
             scoreLabel.fontSize = 50
@@ -172,7 +172,7 @@ extension GameScene {
         }
     }
 
-    func spawnMainLabel() {
+    func createMainLabel() {
         mainLabel = SKLabelNode(fontNamed: "Futura")
         if let mainLabel = mainLabel {
             mainLabel.fontSize = 100
@@ -196,9 +196,11 @@ extension GameScene {
     }
 }
 
-// MARK: - Spawn Timers
+// MARK: - Spawning Timers
+
 extension GameScene {
     
+    /// Fires a projectile upwards towards the Daleks
     func fireProjectile() {
         let fireProjectileTimer = SKAction.wait(forDuration: fireProjectileRate)
         let spawn = SKAction.run {
@@ -208,7 +210,9 @@ extension GameScene {
         run(SKAction.repeatForever(sequence))
     }
 
-    func randomEnemyTimerSpawn() {
+
+    /// Spawns a timer every so often
+    func enemyTimerSpawn() {
         let spawnEnemyTimer = SKAction.wait(forDuration: enemySpawnRate)
         let spawn = SKAction.run {
             self.spawnEnemy()
@@ -220,43 +224,55 @@ extension GameScene {
 
 
 // MARK: - Helper Methods
+
 extension GameScene {
 
+    /// Starts the game up
+    func startGame() {
+        fireProjectile()
+        enemyTimerSpawn()
+        updateScore()
+        hideMainLabel()
+    }
+
+    /// Creates the nodes for gameplay
+    func createNodes() {
+        spawnPlayer()
+        spawnEnemy()
+        spawnProjectile()
+
+        createScoreLabel()
+        createMainLabel()
+    }
+
+    /// After a short delay, transitions back to the Title Scene
     func waitThenMoveToTitleScreen() {
-        let wait = SKAction.wait(forDuration: 3)
         let transition = SKAction.run {
-            if let view = self.view {
-                if let titleScene = TitleScene(fileNamed: "TitleScene") {
-                    view.ignoresSiblingOrder = true
-                    titleScene.scaleMode = .aspectFill
-                    view.presentScene(titleScene, transition: SKTransition.crossFade(withDuration: 1.0))
-                }
+            guard let view = self.view else {
+                return
             }
+            let titleScene = TitleScene(size: view.frame.size)
+            view.ignoresSiblingOrder = true
+            titleScene.scaleMode = .aspectFill
+            view.presentScene(titleScene, transition: SKTransition.crossFade(withDuration: 1.0))
         }
-        let sequence = SKAction.sequence([wait, transition])
+        let sequence = SKAction.sequence([SKAction.wait(forDuration: 3), transition])
         run(SKAction.repeat(sequence, count: 1))
     }
-    
+
+    /// Updates the score label with the current score
     func updateScore() {
         if let scoreLabel = scoreLabel {
             scoreLabel.text = "Score: \(score)"
         }
     }
     
-    func hideLabel() {
-        if let mainLabel = mainLabel {
-            let wait = SKAction.wait(forDuration: 3.0)
-            let hide = SKAction.run {
-                mainLabel.alpha = 0
-            }
-            let sequence = SKAction.sequence([wait, hide])
-            run(SKAction.repeat(sequence, count: 1))
+    /// Hides the main label
+    func hideMainLabel() {
+        guard let mainLabel = mainLabel else {
+            return
         }
-    }
-    
-    func resetVariablesOnStart() {
-        isAlive = true
-        score = 0
+        mainLabel.run(SKAction.fadeOut(withDuration: 3))
     }
 }
 
