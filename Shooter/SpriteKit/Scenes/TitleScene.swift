@@ -15,8 +15,8 @@ class TitleScene: SKScene {
     var tardisNode: SKSpriteNode?
     let textColorHUD = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
     
-    override func didMoveToView(view: SKView) {
-        backgroundColor = UIColor.blackColor()
+    override func didMove(to view: SKView) {
+        backgroundColor = UIColor.black
         
         spawnTardis()
         setupText()
@@ -25,9 +25,9 @@ class TitleScene: SKScene {
     // MARK: - Helper Methods
     
     func spawnTardis() {
-        tardisNode = SKSpriteNode(texture: TextureProvider.instance.tardisLargeTexture)
+        tardisNode = SKSpriteNode(texture: SKTexture.tardisLarge)
         if let tardisNode = tardisNode {
-            tardisNode.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame))
+            tardisNode.position = CGPoint(x: frame.midX, y: frame.midY)
             addChild(tardisNode)
         }
     }
@@ -38,9 +38,9 @@ class TitleScene: SKScene {
             if let btnPlay = btnPlay {
                 btnPlay.center = CGPoint(x: view.frame.size.width / 2, y: view.frame.size.height / 2)
                 btnPlay.titleLabel?.font = UIFont(name: "Futura", size: 60)
-                btnPlay.setTitle("Play!", forState: .Normal)
-                btnPlay.setTitleColor(textColorHUD, forState: .Normal)
-                btnPlay.addTarget(self, action: #selector(playTheGame), forControlEvents: .TouchUpInside)
+                btnPlay.setTitle("Play!", for: UIControlState())
+                btnPlay.setTitleColor(textColorHUD, for: UIControlState())
+                btnPlay.addTarget(self, action: #selector(playTheGame), for: .touchUpInside)
                 view.addSubview(btnPlay)
             }
             
@@ -48,7 +48,7 @@ class TitleScene: SKScene {
             if let gameTitle = gameTitle {
                 gameTitle.textColor = textColorHUD
                 gameTitle.font = UIFont(name: "Futura", size: 40)
-                gameTitle.textAlignment = .Center
+                gameTitle.textAlignment = .center
                 gameTitle.text = "DALEK ATTACK"
                 view.addSubview(gameTitle)
             }
@@ -57,14 +57,14 @@ class TitleScene: SKScene {
     
     func playTheGame() {
         if let view = view {
-            view.presentScene(GameScene(), transition: SKTransition.crossFadeWithDuration(1))
+            view.presentScene(GameScene(), transition: SKTransition.crossFade(withDuration: 1))
             tardisNode?.removeFromParent()
             btnPlay?.removeFromSuperview()
             gameTitle?.removeFromSuperview()
             
             if let gameScene = GameScene(fileNamed: "GameScene") {
                 view.ignoresSiblingOrder = true
-                gameScene.scaleMode = .ResizeFill
+                gameScene.scaleMode = .resizeFill
                 view.presentScene(gameScene)
             }
         }
